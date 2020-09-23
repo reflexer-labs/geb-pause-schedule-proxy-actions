@@ -24,6 +24,7 @@ abstract contract PauseLike {
 
 contract GebPauseScheduleProxyActions {
     // --- Proxies without tx descriptions ---
+
     function modifyParameters(address pause, address actions, address who, bytes32 parameter, uint data, uint earliestExecutionTime) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
@@ -275,6 +276,7 @@ contract GebPauseScheduleProxyActions {
     }
 
     // --- Proxies with tx descriptions ---
+    
     function modifyParameters(address pause, address actions, address who, bytes32 parameter, uint data, uint earliestExecutionTime, string calldata description) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
