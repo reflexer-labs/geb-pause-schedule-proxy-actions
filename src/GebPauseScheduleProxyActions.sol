@@ -151,6 +151,17 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function removeAuthorization(address pause, address actions, address who, address to, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("removeAuthorization(address,address)", who, to),
+            earliestExecutionTime
+        );
+    }
+
     function addAuthorization(address pause, address actions, address who, address to, uint earliestExecutionTime) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
