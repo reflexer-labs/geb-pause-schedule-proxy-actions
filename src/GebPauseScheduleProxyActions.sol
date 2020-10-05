@@ -88,7 +88,7 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function setDummyPIDValidator(address rateSetter, address oracleRelayer, address dummyValidator, uint earliestExecutionTime) public {
+    function setDummyPIDValidator(address pause, address actions, address rateSetter, address oracleRelayer, address dummyValidator, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
@@ -99,7 +99,7 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function addReader(address validator, address reader) public {
+    function addReader(address pause, address actions, address validator, address reader, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
@@ -110,7 +110,7 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function removeReader(address validator, address reader) public {
+    function removeReader(address pause, address actions, address validator, address reader, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
@@ -121,7 +121,7 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function addAuthority(address validator, address account) public {
+    function addAuthority(address pause, address actions, address validator, address account, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
@@ -132,7 +132,7 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function removeAuthority(address validator, address account) public {
+    function removeAuthority(address pause, address actions, address validator, address account, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
