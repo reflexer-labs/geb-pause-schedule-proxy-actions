@@ -143,6 +143,50 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function changePriceSource(address pause, address actions, address fsm, address priceSource, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("changePriceSource(address,address)", fsm, priceSource),
+            earliestExecutionTime
+        );
+    }
+
+    function stopFsm(address pause, address actions, address fsmGovInterface, bytes32 collateralType, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("stopFsm(address,bytes32)", fsmGovInterface, collateralType),
+            earliestExecutionTime
+        );
+    }
+
+    function start(address pause, address actions, address fsm, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("start(address)", fsm),
+            earliestExecutionTime
+        );
+    }
+
+    function changeNextPriceDeviation(address pause, address actions, address fsm, uint deviation, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("changeNextPriceDeviation(address,uint256)", fsm, deviation),
+            earliestExecutionTime
+        );
+    }
+
     function modifyTwoParameters(
       address pause,
       address actions,
