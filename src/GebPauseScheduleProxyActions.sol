@@ -88,6 +88,61 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function setDummyPIDValidator(address rateSetter, address oracleRelayer, address dummyValidator, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("setDummyPIDValidator(address,address,address)", rateSetter, oracleRelayer, dummyValidator),
+            earliestExecutionTime
+        );
+    }
+
+    function addReader(address validator, address reader) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("addReader(address,address)", validator, reader),
+            earliestExecutionTime
+        );
+    }
+
+    function removeReader(address validator, address reader) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("removeReader(address,address)", validator, reader),
+            earliestExecutionTime
+        );
+    }
+
+    function addAuthority(address validator, address account) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("addAuthority(address,address)", validator, account),
+            earliestExecutionTime
+        );
+    }
+
+    function removeAuthority(address validator, address account) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("removeAuthority(address,address)", validator, account),
+            earliestExecutionTime
+        );
+    }
+
     function modifyTwoParameters(
       address pause,
       address actions,
