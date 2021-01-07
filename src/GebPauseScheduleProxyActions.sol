@@ -21,6 +21,10 @@ abstract contract PauseLike {
     function scheduleTransaction(address, bytes32, bytes memory, uint) virtual public;
 }
 
+abstract contract DSRolesLike {
+    function setRootUser(address, bool) virtual public;
+}
+
 contract GebPauseScheduleProxyActions {
     function modifyParameters(address pause, address actions, address who, bytes32 parameter, uint data, uint earliestExecutionTime) external {
         bytes32 tag;
@@ -413,5 +417,9 @@ contract GebPauseScheduleProxyActions {
             abi.encodeWithSignature("multiSetAllowance(address,address[],uint256[])", join, accounts, allowances),
             earliestExecutionTime
         );
+    }
+
+    function setRootUser(address roles, address account, bool isRoot) external {
+        DSRolesLike(roles).setRootUser(account, isRoot);
     }
 }
