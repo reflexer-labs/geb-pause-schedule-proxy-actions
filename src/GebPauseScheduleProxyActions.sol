@@ -99,13 +99,46 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function setDummyPIDValidator(address pause, address actions, address rateSetter, address oracleRelayer, address dummyValidator, uint earliestExecutionTime) public {
+    function modifyParameters(address pause, address actions, address who, uint256 data1, bytes32 data2, uint256 data3, uint256 earliestExecutionTime) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
         PauseLike(pause).scheduleTransaction(
             address(actions),
             tag,
-            abi.encodeWithSignature("setDummyPIDValidator(address,address,address)", rateSetter, oracleRelayer, dummyValidator),
+            abi.encodeWithSignature("modifyParameters(address,uint256,bytes32,uint256)", who, data1, data2, data3),
+            earliestExecutionTime
+        );
+    }
+
+    function transferTokenOut(address pause, address actions, address who, address token, address receiver, uint256 amount, uint256 earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("transferTokenOut(address,address,address,uint256)", who, token, receiver, amount),
+            earliestExecutionTime
+        );
+    }
+
+    function deploy(address pause, address actions, address who, address stakingToken, uint256 data1, uint256 data2, uint256 earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("deploy(address,address,uint256,uint256)", who, stakingToken, data1, data2),
+            earliestExecutionTime
+        );
+    }
+
+    function notifyRewardAmount(address pause, address actions, address who, uint256 campaignNumber, uint256 earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("notifyRewardAmount(address,uint256)", who, campaignNumber),
             earliestExecutionTime
         );
     }
@@ -360,17 +393,6 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function setProtester(address pause, address actions, address protester, uint earliestExecutionTime) external {
-        bytes32 tag;
-        assembly { tag := extcodehash(actions) }
-        PauseLike(pause).scheduleTransaction(
-            address(actions),
-            tag,
-            abi.encodeWithSignature("setProtester(address,address)", pause, protester),
-            earliestExecutionTime
-        );
-    }
-
     function setDelay(address pause, address actions, uint newDelay, uint earliestExecutionTime) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
@@ -378,17 +400,6 @@ contract GebPauseScheduleProxyActions {
             address(actions),
             tag,
             abi.encodeWithSignature("setDelay(address,uint256)", pause, newDelay),
-            earliestExecutionTime
-        );
-    }
-
-    function setDelayMultiplier(address pause, address actions, uint delayMultiplier, uint earliestExecutionTime) external {
-        bytes32 tag;
-        assembly { tag := extcodehash(actions) }
-        PauseLike(pause).scheduleTransaction(
-            address(actions),
-            tag,
-            abi.encodeWithSignature("setDelayMultiplier(address,uint256)", pause, delayMultiplier),
             earliestExecutionTime
         );
     }
