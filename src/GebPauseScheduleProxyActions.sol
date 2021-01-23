@@ -275,25 +275,6 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    function removeAuthorizationAndModify(
-      address pause,
-      address actions,
-      address who,
-      address to,
-      bytes32 parameter,
-      uint data,
-      uint earliestExecutionTime
-    ) external {
-        bytes32 tag;
-        assembly { tag := extcodehash(actions) }
-        PauseLike(pause).scheduleTransaction(
-            address(actions),
-            tag,
-            abi.encodeWithSignature("removeAuthorizationAndModify(address,address,bytes32,uint256)", who, to, parameter, data),
-            earliestExecutionTime
-        );
-    }
-
     function removeAuthorization(address pause, address actions, address who, address to, uint earliestExecutionTime) external {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
@@ -411,17 +392,6 @@ contract GebPauseScheduleProxyActions {
             address(actions),
             tag,
             abi.encodeWithSignature("setAllowance(address,address,uint256)", join, account, allowance),
-            earliestExecutionTime
-        );
-    }
-
-    function multiSetAllowance(address pause, address actions, address join, address[] calldata accounts, uint[] calldata allowances, uint earliestExecutionTime) external {
-        bytes32 tag;
-        assembly { tag := extcodehash(actions) }
-        PauseLike(pause).scheduleTransaction(
-            address(actions),
-            tag,
-            abi.encodeWithSignature("multiSetAllowance(address,address[],uint256[])", join, accounts, allowances),
             earliestExecutionTime
         );
     }
