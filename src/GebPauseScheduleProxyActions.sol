@@ -425,4 +425,26 @@ contract GebPauseScheduleProxyActions {
             earliestExecutionTime
         );
     }
+
+    function mint(address pause, address actions, address token, address to, uint value, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("mint(address,address,uint256)", token, to, value),
+            earliestExecutionTime
+        );
+    }
+
+    function burn(address pause, address actions, address token, address from, uint value, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("burn(address,address,uint256)", token, from, value),
+            earliestExecutionTime
+        );
+    }
 }
