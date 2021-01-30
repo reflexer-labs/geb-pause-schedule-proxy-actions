@@ -143,6 +143,8 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    
+
     function addReader(address pause, address actions, address validator, address reader, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
@@ -216,17 +218,6 @@ contract GebPauseScheduleProxyActions {
             address(actions),
             tag,
             abi.encodeWithSignature("start(address)", fsm),
-            earliestExecutionTime
-        );
-    }
-
-    function changeNextPriceDeviation(address pause, address actions, address fsm, uint deviation, uint earliestExecutionTime) public {
-        bytes32 tag;
-        assembly { tag := extcodehash(actions) }
-        PauseLike(pause).scheduleTransaction(
-            address(actions),
-            tag,
-            abi.encodeWithSignature("changeNextPriceDeviation(address,uint256)", fsm, deviation),
             earliestExecutionTime
         );
     }
