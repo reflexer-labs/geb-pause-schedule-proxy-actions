@@ -143,7 +143,16 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
-    
+    function deployAndNotifyRewardAmount(address pause, address actions, address who, address stakingToken, uint256 data1, uint256 data2, uint256 earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("deployAndNotifyRewardAmount(address,address,uint256,uint256)", who, stakingToken, data1, data2),
+            earliestExecutionTime
+        );
+    }
 
     function addReader(address pause, address actions, address validator, address reader, uint earliestExecutionTime) public {
         bytes32 tag;
