@@ -220,6 +220,17 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function toggleSaviour(address pause, address actions, address targetContract, address saviour, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("toggleSaviour(address,address)", targetContract, saviour),
+            earliestExecutionTime
+        );
+    }
+
     function changePriceSource(address pause, address actions, address fsm, address priceSource, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
