@@ -198,6 +198,28 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function connectSAFESaviour(address pause, address actions, address targetContract, address saviour, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("connectSAFESaviour(address,address)", targetContract, saviour),
+            earliestExecutionTime
+        );
+    }
+
+    function disconnectSAFESaviour(address pause, address actions, address targetContract, address saviour, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("disconnectSAFESaviour(address,address)", targetContract, saviour),
+            earliestExecutionTime
+        );
+    }
+
     function changePriceSource(address pause, address actions, address fsm, address priceSource, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
