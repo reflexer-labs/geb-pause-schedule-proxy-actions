@@ -490,7 +490,7 @@ contract GebPauseScheduleProxyActions {
         PauseLike(pause).scheduleTransaction(
             address(actions),
             tag,
-            abi.encodeWithSignature("getBackTokensFromDistributor(address,uint256)", target, id, amount),
+            abi.encodeWithSignature("getBackTokensFromDistributor(address,uint256,uint256)", target, id, amount),
             earliestExecutionTime
         );
     }
