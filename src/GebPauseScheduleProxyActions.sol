@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-pragma solidity ^0.6.7;
+pragma solidity 0.6.7;
 
 abstract contract PauseLike {
     function scheduleTransaction(address, bytes32, bytes memory, uint) virtual public;
@@ -447,6 +447,50 @@ contract GebPauseScheduleProxyActions {
             address(actions),
             tag,
             abi.encodeWithSignature("burn(address,address,uint256)", token, from, value),
+            earliestExecutionTime
+        );
+    }
+
+    function deployDistributorAndSendTokens(address pause, address actions, address target, bytes32 merkleRoot, uint256 amount, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("deployDistributorAndSendTokens(address,bytes32,uint256)", target, merkleRoot, amount),
+            earliestExecutionTime
+        );
+    }
+
+    function sendTokensToCustom(address pause, address actions, address target, address dst, uint256 amount, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("sendTokensToCustom(address,address,uint256)", target, dst, amount),
+            earliestExecutionTime
+        );
+    }
+
+    function dropDistributorAuth(address pause, address actions, address target, uint256 id, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("dropDistributorAuth(address,uint256)", target, id),
+            earliestExecutionTime
+        );
+    }
+
+    function getBackTokensFromDistributor(address pause, address actions, address target, uint256 id, uint256 amount, uint earliestExecutionTime) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("getBackTokensFromDistributor(address,uint256)", target, id, amount),
             earliestExecutionTime
         );
     }
