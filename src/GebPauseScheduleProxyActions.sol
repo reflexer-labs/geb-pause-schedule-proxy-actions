@@ -253,6 +253,17 @@ contract GebPauseScheduleProxyActions {
         );
     }
 
+    function setFsm(address pause, address actions, address fsmGovInterface, bytes32 collateralType, address fsm, uint earliestExecutionTime) public {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("setFsm(address,bytes32,address)", fsmGovInterface, collateralType, fsm),
+            earliestExecutionTime
+        );
+    }
+
     function start(address pause, address actions, address fsm, uint earliestExecutionTime) public {
         bytes32 tag;
         assembly { tag := extcodehash(actions) }
