@@ -505,4 +505,50 @@ contract GebPauseScheduleProxyActions {
             earliestExecutionTime
         );
     }
+
+    function setIncreasingRewardsParams(
+        address pause,
+        address actions,
+        address target,
+        uint256 baseUpdateCallerReward,
+        uint256 maxUpdateCallerReward,
+        uint earliestExecutionTime
+    ) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("setIncreasingRewardsParams(address,uint256,uint256)", target, baseUpdateCallerReward, maxUpdateCallerReward),
+            earliestExecutionTime
+        );
+    }
+
+    function setIncreasingRewardsParamsAndAllowances(
+        address pause,
+        address actions,
+        address target,
+        address treasury,
+        uint256 baseUpdateCallerReward,
+        uint256 maxUpdateCallerReward,
+        uint256 perBlockAllowance,
+        uint256 totalAllowance,
+        uint earliestExecutionTime
+    ) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("setIncreasingRewardsParamsAndAllowances(address,address,uint256,uint256,uint256,uint256)",
+                target,
+                treasury,
+                baseUpdateCallerReward,
+                maxUpdateCallerReward,
+                perBlockAllowance,
+                totalAllowance
+            ),
+            earliestExecutionTime
+        );
+    }
 }
