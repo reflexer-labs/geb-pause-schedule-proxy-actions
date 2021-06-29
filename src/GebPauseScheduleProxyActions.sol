@@ -551,4 +551,21 @@ contract GebPauseScheduleProxyActions {
             earliestExecutionTime
         );
     }
+
+    function setOwner(
+        address pause,
+        address actions,
+        address target,
+        address owner,
+        uint256 earliestExecutionTime
+    ) external {
+        bytes32 tag;
+        assembly { tag := extcodehash(actions) }
+        PauseLike(pause).scheduleTransaction(
+            address(actions),
+            tag,
+            abi.encodeWithSignature("setOwner(address,address)", target, owner),
+            earliestExecutionTime
+        );
+    }
 }
